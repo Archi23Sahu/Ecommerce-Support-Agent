@@ -1,5 +1,6 @@
 # api/main.py
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import traceback
@@ -9,6 +10,14 @@ load_dotenv()
 from agent.agent import get_agent
 
 app = FastAPI(title="ShopBot API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "https://ecommerce-support-agent.vercel.app/"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ChatRequest(BaseModel):
     message: str
